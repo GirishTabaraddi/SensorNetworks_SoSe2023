@@ -12,4 +12,7 @@ Implement the classes and their methods as described in the header files. Adding
 
 The Illustration mentioned in TableBasedAdjuster::adjust:
 
-![TableBasedAdjuster::adjust]()
+![TableBasedAdjuster::adjust](https://github.com/GirishTabaraddi/SensorNetworks_SoSe2023/blob/feature/add-repo/graph.png)
+
+### Note
+The points that you get for implementing a particular method can be found in the methods comment. The total number of points that you can reach is 84.
