@@ -2,7 +2,7 @@
 
 Topic of this exam is the (partial) modelling of a sensor network (see picture below).
 
-![SensorNetworks_UML]()
+![SensorNetworks_UML](https://github.com/GirishTabaraddi/SensorNetworks_SoSe2023/blob/feature/add-repo/SensorNetworks_UML.png)
 
 The diagram shows the classes, their relationships and only a subset of attributes and methods related to sensor calibration. You can find all attributes and methods in the class definitions. The comments there also describe the classes and methods in detail.
 
