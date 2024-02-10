@@ -17,55 +17,63 @@ float TableBasedAdjuster::adjust(float value) const
 	}
 	else
 	{
-		float k_max = this->breakpoints.begin()->first;
-		float k_min = this->breakpoints.begin()->first;
+		/// this logic works for both ordered and unordered maps
+//		float k_max = this->breakpoints.begin()->first;
+//		float k_min = this->breakpoints.begin()->first;
+//
+//		float v_max = this->breakpoints.begin()->second;
+//		float v_min = this->breakpoints.begin()->second;
+//
+//		for(auto& itr: this->breakpoints)
+//		{
+//			if(itr.first > k_max)
+//			{
+//				k_max = itr.first;
+//				v_max = itr.second;
+//			}
+//			if(itr.first < k_min)
+//			{
+//				k_min = itr.first;
+//				v_min = itr.second;
+//			}
+//		}
 
-		for(auto& itr: this->breakpoints)
-		{
-			if(itr.first > k_max)
-			{
-				k_max = itr.first;
-			}
-			if(itr.first < k_min)
-			{
-				k_min = itr.first;
-			}
-		}
-
+		/// this logic works for both ordered and unordered maps
 //		auto minmax = std::minmax_element(begin(this->breakpoints), end(this->breakpoints));
 //
 //		float k_min = minmax.first->first;
-//		float k_max = minmax.second->second;
+//		float k_max = minmax.second->first;
+//		float v_min = minmax.first->second;
+//		float v_max = minmax.second->second;
+
+//		cout << k_min << " " << v_min << " " << k_max << " " << v_max << endl;
+
+		/// Logic using begin and rbegin only for ordered map
+		float k_min = this->breakpoints.begin()->first;
+		float k_max = this->breakpoints.rbegin()->first;
+
+		float v_min = this->breakpoints.begin()->second;
+		float v_max = this->breakpoints.rbegin()->second;
 
 		float adjustedValue = 0;
 
 		if(value <= k_min)
 		{
-			auto itr = this->breakpoints.find(k_min);
-
-			if(itr != this->breakpoints.end())
-			{
-				adjustedValue = itr->second - (itr->first - value);
-			}
+			adjustedValue = v_min - (k_min - value);
 		}
 		if(value >= k_max)
 		{
-			auto itr = this->breakpoints.find(k_max);
-
-			if(itr != this->breakpoints.end())
-			{
-				adjustedValue = itr->second + (value - itr->first);
-			}
+			adjustedValue = v_max + (value - k_max);
 		}
 
-		for(auto itr = this->breakpoints.begin(); itr != this->breakpoints.end(); itr++)
+		for(auto k_n = this->breakpoints.begin(); k_n != this->breakpoints.end(); k_n++)
 		{
-			auto next_itr = std::next(itr);
+			auto k_n_1 = next(k_n);
 
-			if(next_itr != this->breakpoints.end() && value > itr->first && value <= next_itr->first)
+			if(k_n_1 != this->breakpoints.end() && value > k_n->first && value <= k_n_1->first)
 			{
-				adjustedValue = (value - itr->first) / (next_itr->first - itr->first) *
-						(next_itr->second - itr->second) + itr->second;
+				adjustedValue = (value - k_n->first) / (k_n_1->first - k_n->first) *
+						(k_n_1->second - k_n->second) + k_n->second;
 
 				break;
 			}
